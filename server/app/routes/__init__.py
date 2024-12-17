@@ -1,0 +1,1 @@
+from .text_translate import text_translate_bp
