@@ -3,7 +3,7 @@ export const resetFiles = (
   setSelectedPdf,
   setSelectedAudio
 ) => {
-  setSelectedImage(null);
+  // setSelectedImage(null);
   setSelectedPdf(null);
   setSelectedAudio(null);
 };

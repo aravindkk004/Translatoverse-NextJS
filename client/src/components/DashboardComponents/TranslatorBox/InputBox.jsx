@@ -24,9 +24,9 @@ const InputBox = ({
   setInputText,
 }) => {
   // speech recognition
-  var recognition = new webkitSpeechRecognition();
-  recognition.lang = window.navigator.language;
-  recognition.interimResults = true;
+  // var recognition = new webkitSpeechRecognition();
+  // recognition.lang = window.navigator.language;
+  // recognition.interimResults = true;
   const [recording, setRecording] = useState(false);
 
   const [selectedFileType, setSelectedFileType] = useState(fileTypes[0]);
@@ -84,30 +84,42 @@ const InputBox = ({
   };
 
   const RecordVoice = async () => {
-    resetFiles(
-      setSelectedImage,
-      setSelectedPdf,
-      setSelectedAudio,
-      setSelectedFile
-    ); 
-    setFileType("text");
-    setSelectedFileType("text");
-    setInputText("");
-    setRecording(!recording);
-    recognition.start();
-    recognition.onresult = (event) => {
-      const result = event.results[event.results.length - 1][0].transcript;
-      setInputText(result);
-    };
+    if (typeof window !== "undefined" && "webkitSpeechRecognition" in window) {
+      const recognition = new window.webkitSpeechRecognition();
+      recognition.lang = window.navigator.language;
+      recognition.interimResults = true;
 
-    recognition.onerror = (event) => {
-      console.error("Speech recognition error:", event.error);
-    };
+      resetFiles(
+        setSelectedImage,
+        setSelectedPdf,
+        setSelectedAudio,
+        setSelectedFile
+      );
+      setFileType("text");
+      setSelectedFileType("text");
+      setInputText("");
+      setRecording(!recording);
 
-    recognition.onend = () => {
-      setRecording(false);
-      recognition.stop();
-    };
+      recognition.start();
+
+      recognition.onresult = (event) => {
+        const result = event.results[event.results.length - 1][0].transcript;
+        setInputText(result);
+      };
+
+      recognition.onerror = (event) => {
+        console.error("Speech recognition error:", event.error);
+      };
+
+      recognition.onend = () => {
+        setRecording(false);
+        recognition.stop();
+      };
+    } else {
+      console.error(
+        "Speech recognition is not supported in this browser or environment."
+      );
+    }
   };
 
   return (
