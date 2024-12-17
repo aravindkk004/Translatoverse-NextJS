@@ -10,9 +10,24 @@ import {
   LinkedinShareButton,
 } from "react-share";
 import { FaFacebook, FaLinkedinIn, FaXTwitter } from "react-icons/fa6";
+import { toast } from "react-toastify";
 
 const OutputBox = ({ translatedText, selectedLanguage, languageChange }) => {
   const [showShareModal, setShowShareModel] = useState(false);
+
+  const copyText = async () => {
+    if(translatedText){
+    navigator.clipboard.writeText(translatedText).then(
+      () => {
+        toast.success("Text copied to clipboard");
+      },
+      (err) => {
+        toast.error("Error while copying text");
+      }
+    );}else{
+      toast.error("Text is empty!")
+    }
+  };
 
   return (
     <>
@@ -36,7 +51,9 @@ const OutputBox = ({ translatedText, selectedLanguage, languageChange }) => {
         </div>
 
         {/* output text area  */}
-        <div className="bg-white mt-[20px] w-full h-[300px] resize-none rounded-lg outline-none p-[13px] overflow-y-scroll overflow-hidden">{translatedText || ""}</div>
+        <div className="bg-white mt-[20px] w-full h-[300px] resize-none rounded-lg outline-none p-[13px] overflow-y-scroll overflow-hidden">
+          {translatedText || ""}
+        </div>
         {/* download and copy options */}
         <div className="flex items-center mt-[10px] text-white justify-between">
           <div className="flex bg-secondary px-[10px] py-[5px] items-center rounded-full">
@@ -69,7 +86,10 @@ const OutputBox = ({ translatedText, selectedLanguage, languageChange }) => {
                 size={20}
               />
             </div>
-            <div className="cursor-pointer bg-white p-2 rounded-full hover:bg-secondary">
+            <div
+              className="cursor-pointer bg-white p-2 rounded-full hover:bg-secondary"
+              onClick={copyText}
+            >
               <MdContentCopy
                 className="text-black hover:text-white"
                 size={20}

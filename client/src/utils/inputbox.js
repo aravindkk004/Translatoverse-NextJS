@@ -40,3 +40,4 @@ export const handleFileDrop = (
 };
 
 export const handleFileTypeChange = (fileType) => fileType;
+

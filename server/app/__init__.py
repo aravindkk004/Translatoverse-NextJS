@@ -9,5 +9,5 @@ def create_app():
     CORS(app)
     app.register_blueprint(text_translate_bp, url_prefix='/api')
     app.register_blueprint(image_translate_bp, url_prefix='/api')
-    app.register_blueprint(pdf_translate_bp, utl_prefix='/api')
+    app.register_blueprint(pdf_translate_bp, url_prefix='/api')
     return app

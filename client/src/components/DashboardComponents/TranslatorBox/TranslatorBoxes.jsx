@@ -53,6 +53,7 @@ const TranslatorBoxes = () => {
             inputText={inputText}
             setSelectedFile={setSelectedFile}
             setFileType={setFileType}
+            setInputText={setInputText}
           />
           <FaArrowRightArrowLeft
             size={"40px"}

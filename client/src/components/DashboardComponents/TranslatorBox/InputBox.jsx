@@ -21,11 +21,18 @@ const InputBox = ({
   inputText,
   setSelectedFile,
   setFileType,
+  setInputText,
 }) => {
+  // speech recognition
+  var recognition = new webkitSpeechRecognition();
+  recognition.lang = window.navigator.language;
+  recognition.interimResults = true;
+  const [recording, setRecording] = useState(false);
+
   const [selectedFileType, setSelectedFileType] = useState(fileTypes[0]);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const fileInputRef = useRef(null);
-  const [selectedImage, setSelectedImage] = useState();
+  const [selectedImage, setSelectedImage] = useState("");
   const [selectedAudio, setSelectedAudio] = useState();
   const [selectedPdf, setSelectedPdf] = useState();
 
@@ -74,6 +81,25 @@ const InputBox = ({
   const handleTextareaChange = (event) => {
     handleInputText(event);
     resetFiles();
+  };
+
+  const RecordVoice = async () => {
+    setInputText("");
+    setRecording(!recording);
+    recognition.start();
+    recognition.onresult = (event) => {
+      const result = event.results[event.results.length - 1][0].transcript;
+      setInputText(result);
+    };
+
+    recognition.onerror = (event) => {
+      console.error("Speech recognition error:", event.error);
+    };
+
+    recognition.onend = () => {
+      setRecording(false);
+      recognition.stop();
+    };
   };
 
   return (
@@ -139,11 +165,15 @@ const InputBox = ({
           </div>
         )}
 
-        <div className="flex items-center text-white my-[5px]">
+        <div
+          className="flex items-center text-white my-[5px] cursor-pointer"
+          onClick={RecordVoice}
+        >
           <MdKeyboardVoice
             size={"40px"}
             className="bg-secondary p-2 rounded-full"
           />
+          {recording && <img src="wave.gif" className="h-[50px]" />}
         </div>
 
         <hr className="border-white border-t-4 my-[10px] -ml-[15px] w-[106%]" />
