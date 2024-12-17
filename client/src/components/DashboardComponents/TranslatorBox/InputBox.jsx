@@ -16,11 +16,15 @@ const fileTypes = [
   { value: "voice", label: "Voice", icon: "/images/voiceicon.png" },
 ];
 
-const InputBox = () => {
+const InputBox = ({
+  handleInputText,
+  inputText,
+  setSelectedFile,
+  setFileType,
+}) => {
   const [selectedFileType, setSelectedFileType] = useState(fileTypes[0]);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const fileInputRef = useRef(null);
-  const [selectedFile, setSelectedFile] = useState();
   const [selectedImage, setSelectedImage] = useState();
   const [selectedAudio, setSelectedAudio] = useState();
   const [selectedPdf, setSelectedPdf] = useState();
@@ -56,6 +60,7 @@ const InputBox = () => {
   };
   const handleDropdownSelection = (fileType) => {
     const newFileType = handleFileTypeChange(fileType);
+    setFileType(fileType.value);
     setSelectedFileType(newFileType);
     setDropdownOpen(false);
     resetFiles(
@@ -65,6 +70,12 @@ const InputBox = () => {
       setSelectedFile
     ); // Reset files
   };
+
+  const handleTextareaChange = (event) => {
+    handleInputText(event);
+    resetFiles();
+  };
+
   return (
     <>
       <div
@@ -85,7 +96,11 @@ const InputBox = () => {
         {/* textarea  */}
         {!selectedImage && !selectedPdf && !selectedAudio && (
           <div>
-            <textarea className="bg-white mt-[20px] w-full h-[300px] resize-none rounded-lg outline-none p-[10px]" />
+            <textarea
+              className="bg-white mt-[20px] w-full h-[300px] resize-none rounded-lg outline-none p-[10px]"
+              onChange={handleTextareaChange}
+              value={inputText}
+            />
           </div>
         )}
 

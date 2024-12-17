@@ -11,8 +11,9 @@ import {
 } from "react-share";
 import { FaFacebook, FaLinkedinIn, FaXTwitter } from "react-icons/fa6";
 
-const OutputBox = () => {
+const OutputBox = ({ translatedText, selectedLanguage, languageChange }) => {
   const [showShareModal, setShowShareModel] = useState(false);
+
   return (
     <>
       <div className="p-[15px] bg-zinc-200 rounded-xl sm:w-[50%] w-[90%]">
@@ -22,7 +23,8 @@ const OutputBox = () => {
             <TbWorld size={"25px"} />
             <select
               className="w-[100%] p-[10px] rounded-full relative h-[50px] outline-none font-bold"
-              defaultValue="ta"
+              value={selectedLanguage}
+              onChange={languageChange}
             >
               {Object.entries(languages).map(([key, value]) => (
                 <option key={key} value={key}>
@@ -34,7 +36,7 @@ const OutputBox = () => {
         </div>
 
         {/* output text area  */}
-        <div className="bg-white mt-[20px] w-full h-[300px] resize-none rounded-lg outline-none p-[13px] overflow-y-scroll overflow-hidden"></div>
+        <div className="bg-white mt-[20px] w-full h-[300px] resize-none rounded-lg outline-none p-[13px] overflow-y-scroll overflow-hidden">{translatedText || ""}</div>
         {/* download and copy options */}
         <div className="flex items-center mt-[10px] text-white justify-between">
           <div className="flex bg-secondary px-[10px] py-[5px] items-center rounded-full">

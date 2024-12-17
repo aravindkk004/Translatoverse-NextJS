@@ -25,7 +25,7 @@ def extract_text_from_pdf(pdf_path):
     return text.strip()
 
 @pdf_translate_bp.route('/pdf_translate', methods=['POST'])
-def pdfTranslate():
+def pdf_translate():
     if 'file' not in request.files:
         return jsonify({'error': 'No file part in the request'}), 400
     file = request.files['file']
