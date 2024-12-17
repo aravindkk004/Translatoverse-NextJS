@@ -84,6 +84,14 @@ const InputBox = ({
   };
 
   const RecordVoice = async () => {
+    resetFiles(
+      setSelectedImage,
+      setSelectedPdf,
+      setSelectedAudio,
+      setSelectedFile
+    ); 
+    setFileType("text");
+    setSelectedFileType("text");
     setInputText("");
     setRecording(!recording);
     recognition.start();
@@ -154,7 +162,7 @@ const InputBox = ({
         )}
 
         {selectedAudio && (
-          <div className="flex justify-center my-4">
+          <div className="flex justify-center my-4 h-[295px] items-center">
             <audio controls className="w-full">
               <source
                 src={URL.createObjectURL(selectedAudio)}

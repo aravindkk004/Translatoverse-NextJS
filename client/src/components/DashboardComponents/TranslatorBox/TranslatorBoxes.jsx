@@ -5,6 +5,7 @@ import {
   textTranslate,
   imageTranslate,
   pdfTranslate,
+  audioTranslate,
 } from "@/utils/translations";
 import { useState } from "react";
 
@@ -44,6 +45,18 @@ const TranslatorBoxes = () => {
     setSelectedLanguage(event.target.value);
   };
 
+  const handleDownload = (format) => {
+    if (format == "pdf") {
+      pdfDownload(translatedText);
+    } else if (format == "png") {
+      imageDownload(translatedText);
+    } else if (format == "mp3") {
+      audioDownload(translatedText);
+    } else if (format == "txt") {
+      textDownload(translatedText);
+    }
+  };
+
   return (
     <>
       <div className="flex flex-col items-center mt-[40px] lg:px-[55px]">
@@ -63,6 +76,7 @@ const TranslatorBoxes = () => {
             translatedText={translatedText}
             selectedLanguage={selectedLanguage}
             languageChange={languageChange}
+            handleDownload={handleDownload}
           />
         </div>
         <button

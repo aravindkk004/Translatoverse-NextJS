@@ -70,10 +70,37 @@ export const pdfTranslate = async (selectedFile, selectedLanguage) => {
     if (response.status === 200) {
       return response.data;
     } else {
-      toast.error(response.data.error || "Image translation failed.");
+      toast.error(response.data.error || "PDF translation failed.");
       return null;
     }
   } catch (error) {
     console.log(error);
   }
 };
+
+
+export const audioTranslate = async(selectedFile, selectedLanguage) => {
+  const formData = new FormData();
+  formData.append("file", selectedFile);
+  formData.append("target_language", selectedLanguage);
+  try {
+    const response = await axios.post(
+      `http://127.0.0.1:5000/api/audio_translate`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      toast.error(response.data.error || "Audio translation failed.");
+      return null;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}

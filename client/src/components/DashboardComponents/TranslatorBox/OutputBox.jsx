@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 
 const OutputBox = ({ translatedText, selectedLanguage, languageChange }) => {
   const [showShareModal, setShowShareModel] = useState(false);
+  const [downloadFormat, setDownloadFormat]= useState("pdf");
 
   const copyText = async () => {
     if(translatedText){
@@ -25,7 +26,7 @@ const OutputBox = ({ translatedText, selectedLanguage, languageChange }) => {
         toast.error("Error while copying text");
       }
     );}else{
-      toast.error("Text is empty!")
+      toast.error("Nothing to copy!")
     }
   };
 
@@ -59,7 +60,7 @@ const OutputBox = ({ translatedText, selectedLanguage, languageChange }) => {
           <div className="flex bg-secondary px-[10px] py-[5px] items-center rounded-full">
             <p className="cursor-pointer text-sm md:text-base">Download</p>
             <div>
-              <select className="w-[100%] bg-secondary sm:px-[5px] rounded-full py-[5px] outline-none text-sm md:text-base">
+              <select className="w-[100%] bg-secondary sm:px-[5px] rounded-full py-[5px] outline-none text-sm md:text-base" onChange={setDownloadFormat} value={downloadFormat}>
                 <option value="pdf" className="bg-white text-black">
                   (.pdf)
                 </option>
